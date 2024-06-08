@@ -3,6 +3,7 @@ from tkinter import ttk
 from algoritma_DDA import Algoritma_DDA as DDA
 from algoritma_Bresenham import algoritma_Bresenham
 from algoritma_MidCirclePoint import algoritma_MidCirclePoint
+from algoritma_ElipsMidPoint import algoritma_ElipsMidPoint
 
 #cek apakah inputan nilai atau angka
 def cek_angka(nilai_x, nilai_y,nilai_x2,nilai_y2):
@@ -39,6 +40,21 @@ def cek_angka(nilai_x, nilai_y,nilai_x2,nilai_y2):
     else:
         return False
 
+#fungsi untuk ketika value menu dropdown berubah
+def on_dropdown_changed(event):
+    pilihan_dipilih = pilihan_dropdown.get()
+    # Lakukan tindakan yang sesuai dengan pilihan yang dipilih
+    if pilihan_dipilih == 'Algoritma DDA':
+        # Lakukan tindakan untuk algoritma DDA
+        teks_penting.config(text=' ')
+    elif pilihan_dipilih == 'Bresenham':
+        teks_penting.config(text=' ')
+    elif pilihan_dipilih == 'Circle Midpoint':
+        teks_penting.config(text='khusus algoritma mid circle point\ny1 akan jadi r')
+    elif pilihan_dipilih == 'Elips Midpoints':
+        teks_penting.config(text='khusus algoritma Elips Midpoints\nyang dipakai x1 dan y1\ndan akan langsung dianggap kuadran 1 semua')
+
+
 def Kerjakan():
     if cek_angka(nilai_x.get(), nilai_y.get(), nilai_x2.get(),nilai_y2.get()):
         x_konfirmasi.config(text="")
@@ -66,6 +82,12 @@ def Kerjakan():
             tugas3.hitung()
             tugas3.show()
             del tugas3
+        elif pilihan_menu.get() == 'Elips Midpoints':
+            print("menu Elips Midpoints terpilih")
+            tugas4 = algoritma_ElipsMidPoint(int(nilai_x.get()),int(nilai_y.get()))
+            tugas4.hitung()
+            tugas4.show()
+            del tugas4
 
     else:
         if nilai_x_cek == True:
@@ -162,8 +184,9 @@ y_konfirmasi2.pack(pady=5,fill="x",expand=True)
 #menu dropdown
 # Membuat menu dropdown
 pilihan_dropdown = ttk.Combobox(main_frame, textvariable=pilihan_menu,state="readonly")
-pilihan_dropdown['values'] = ('Algoritma DDA', 'Bresenham', 'Circle Midpoint')
+pilihan_dropdown['values'] = ('Algoritma DDA', 'Bresenham', 'Circle Midpoint','Elips Midpoints')
 pilihan_dropdown.pack(pady=2)
+pilihan_dropdown.bind("<<ComboboxSelected>>", on_dropdown_changed)
 
 #button
 tombol = ttk.Button(main_frame,text="jalankan",command=Kerjakan)
@@ -171,8 +194,8 @@ tombol.pack(fill='x',expand=True,padx=10,pady=10)
 window.bind('<Return>', trigger_tombol) #untuk biar tekan enter keyboard bisa langsung tekan tombol
 
 #teks
-teks = ttk.Label(main_frame,text="khusus algoritma mid circle point\ny1 akan jadi r")
-teks.pack(pady=5,fill="x",expand=True)
+teks_penting = ttk.Label(main_frame,text=" ")
+teks_penting.pack(pady=5,fill="x",expand=True)
 
 #run
 window.mainloop()
