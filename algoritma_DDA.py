@@ -29,11 +29,11 @@ class Algoritma_DDA:
         print(f"nilai dx = {self.dx} dan nilai dy = {self.dy}")
 
         #langkah 2 : tentukan step
-        if self.dy > self.dx: #jika dy lebih besar dari dx maka step = dy
-            self.step = self.dy
+        if abs(self.dy) > abs(self.dx): #jika |dy| lebih besar dari |dx| maka step = |dy|
+            self.step = abs(self.dy)
             print(f"step = dy yaitu {self.step}")
         else:
-            self.step = self.dx #jika tidak maka step = dx
+            self.step = abs(self.dx) #jika tidak maka step = |dx|
             print(f"step = dx yaitu {self.step}")
 
         #langkah 3 : mencari nilai increment
@@ -44,44 +44,55 @@ class Algoritma_DDA:
         print(f"array awal \nx = {self.x_array}\ny = {self.y_array}")
 
         #perulangan nilai x dan y
-        while self.temp_x != self.nilai_x2 or self.temp_y != self.nilai_y2:
-            # self.temp_x += self.x_increment
-            # self.temp_y += self.y_increment
-            # self.x_array.append(self.temp_x)
-            # self.y_array.append(self.temp_y)
-            if self.temp_x != self.nilai_x2:
-                self.temp_x += self.x_increment
-                self.x_array.append(self.temp_x)
-            # else:
-            #     self.x_array.append(self.temp_x)
+        for indeks in range(int(self.step)):
+            self.temp_x += self.x_increment
+            self.x_array.append(self.temp_x)
+            self.temp_y += self.y_increment
+            self.y_array.append(self.temp_y)
+        #===================================================================
+        # while self.temp_x != self.nilai_x2 or self.temp_y != self.nilai_y2:
+        #     # self.temp_x += self.x_increment
+        #     # self.temp_y += self.y_increment
+        #     # self.x_array.append(self.temp_x)
+        #     # self.y_array.append(self.temp_y)
 
-            if self.temp_y != self.nilai_y2:
-                self.temp_y += self.y_increment
-                self.y_array.append(self.temp_y)
-            # else:
-            #     self.y_array.append(self.temp_y)
+        #     if self.temp_x != self.nilai_x2:
+        #         self.temp_x += self.x_increment
+        #         self.x_array.append(self.temp_x)
+        #     # else:
+        #     #     self.x_array.append(self.temp_x)
 
+        #     if self.temp_y != self.nilai_y2:
+        #         self.temp_y += self.y_increment
+        #         self.y_array.append(self.temp_y)
+        #     # else:
+        #     #     self.y_array.append(self.temp_y)
+        #===========================================
+
+        print(f"array x = {self.x_array}\narray y = {self.y_array}\n")
 
         #langkah terakhir : memperbaiki nilai yang koma/ membulatkan semuanya
         for indeks in range(len(self.x_array)):
-            if self.x_array[indeks] >= 4.5:
-                self.x_array[indeks] = math.ceil(self.x_array[indeks])
-            else:
-                self.x_array[indeks] = math.floor(self.x_array[indeks])
+            self.x_array[indeks] = round(self.x_array[indeks])
 
         for indeks in range(len(self.y_array)):
-            if self.y_array[indeks] >= 4.5:
-                self.y_array[indeks] = math.ceil(self.y_array[indeks])
-            else:
-                self.y_array[indeks] = math.floor(self.y_array[indeks])
+            self.y_array[indeks] = round(self.y_array[indeks])
+
         print("hitung selesai")
 
     def show(self):
+        #mengintegerkan array
+        for indeks in range(len(self.x_array)):
+            self.x_array[indeks] = int(self.x_array[indeks])
+            self.y_array[indeks] = int(self.y_array[indeks])
+
         print(self.x_array)
         print(self.y_array)
         print("menampilkan tabel")
 
         # Menambahkan judul dan label sumbu
+        plt.figure(1)
+        plt.suptitle("Algoritma DDA | Aditya Difa 123210085")
         plt.title('Plot Scatter dari Array x dan y')
         plt.xlabel('Nilai x')
         plt.ylabel('Nilai y')

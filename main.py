@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from algoritma_DDA import Algoritma_DDA as DDA
+from algoritma_Bresenham import algoritma_Bresenham
+from algoritma_MidCirclePoint import algoritma_MidCirclePoint
 
 #cek apakah inputan nilai atau angka
 def cek_angka(nilai_x, nilai_y,nilai_x2,nilai_y2):
@@ -10,22 +12,22 @@ def cek_angka(nilai_x, nilai_y,nilai_x2,nilai_y2):
     global nilai_y_cek
     global nilai_x_cek2
     global nilai_y_cek2
-    if nilai_x.isdigit():
+    if nilai_x.isdigit() or (nilai_x.startswith("-") and nilai_x[1:].isdigit()): #cek 0-9 atau awalan ada "-" dan diberikutnya adalah 0-9
         nilai_x_cek = True
     else:
         nilai_x_cek = False
 
-    if nilai_y.isdigit():
+    if nilai_y.isdigit() or (nilai_y.startswith("-") and nilai_y[1:].isdigit()):
         nilai_y_cek = True
     else:
         nilai_y_cek = False
 
-    if nilai_x2.isdigit():
+    if nilai_x2.isdigit() or (nilai_x2.startswith("-") and nilai_x2[1:].isdigit()):
         nilai_x_cek2 = True
     else:
         nilai_x_cek2 = False
 
-    if nilai_y2.isdigit():
+    if nilai_y2.isdigit() or (nilai_y2.startswith("-") and nilai_y2[1:].isdigit()):
         nilai_y_cek2 = True
     else:
         nilai_y_cek2 = False
@@ -52,6 +54,18 @@ def Kerjakan():
             tugas.hitung()
             tugas.show()
             del tugas
+        elif pilihan_menu.get() == "Bresenham":
+            print("menu Bresenham terpilih")
+            tugas2 = algoritma_Bresenham(float(nilai_x.get()),float(nilai_x2.get()),float(nilai_y.get()),float(nilai_y2.get()))
+            tugas2.hitung()
+            tugas2.show()
+            del tugas2
+        elif pilihan_menu.get() == "Circle Midpoint":
+            print("menu circle midpoint terpilih")
+            tugas3 = algoritma_MidCirclePoint(int(nilai_y.get()))
+            tugas3.hitung()
+            tugas3.show()
+            del tugas3
 
     else:
         if nilai_x_cek == True:
@@ -81,7 +95,7 @@ def trigger_tombol(event=None):
 #membuat tampilan utama
 window = tk.Tk()
 window.configure(bg="white")
-window.geometry("400x400")
+window.geometry("400x550")
 window.title("TUGAS-1")
 
 #variable
@@ -148,13 +162,17 @@ y_konfirmasi2.pack(pady=5,fill="x",expand=True)
 #menu dropdown
 # Membuat menu dropdown
 pilihan_dropdown = ttk.Combobox(main_frame, textvariable=pilihan_menu,state="readonly")
-pilihan_dropdown['values'] = ('Algoritma DDA', 'B...', 'Circle Midpoint')
+pilihan_dropdown['values'] = ('Algoritma DDA', 'Bresenham', 'Circle Midpoint')
 pilihan_dropdown.pack(pady=2)
 
 #button
 tombol = ttk.Button(main_frame,text="jalankan",command=Kerjakan)
 tombol.pack(fill='x',expand=True,padx=10,pady=10)
-window.bind('<Return>', trigger_tombol)
+window.bind('<Return>', trigger_tombol) #untuk biar tekan enter keyboard bisa langsung tekan tombol
+
+#teks
+teks = ttk.Label(main_frame,text="khusus algoritma mid circle point\ny1 akan jadi r")
+teks.pack(pady=5,fill="x",expand=True)
 
 #run
 window.mainloop()
