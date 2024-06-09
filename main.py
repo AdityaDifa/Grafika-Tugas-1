@@ -1,9 +1,16 @@
 import tkinter as tk
 from tkinter import ttk
+
+from matplotlib import pyplot as plt
+import numpy
 from algoritma_DDA import Algoritma_DDA as DDA
 from algoritma_Bresenham import algoritma_Bresenham
 from algoritma_MidCirclePoint import algoritma_MidCirclePoint
 from algoritma_ElipsMidPoint import algoritma_ElipsMidPoint
+from algoritma_BoundaryFill import BoundaryFill
+from algoritma_Translasi import Translasi
+from algoritma_skala import Skala
+from algortima_rotasi import Rotasi
 
 #cek apakah inputan nilai atau angka
 def cek_angka(nilai_x, nilai_y,nilai_x2,nilai_y2):
@@ -53,6 +60,14 @@ def on_dropdown_changed(event):
         teks_penting.config(text='khusus algoritma mid circle point\ny1 akan jadi r')
     elif pilihan_dipilih == 'Elips Midpoints':
         teks_penting.config(text='khusus algoritma Elips Midpoints\nyang dipakai x1 dan y1\ndan akan langsung dianggap kuadran 1 semua')
+    elif pilihan_dipilih == 'Boundary Fill':
+        teks_penting.config(text='akan ada matrix 11x11, cukup masukan nilai di x1 dan y1 sebagai titik awal mewarnai/ fill')
+    elif pilihan_dipilih == 'Translasi':
+        teks_penting.config(text='gunakan nilai x1 dan y1 untuk menentukan nilai gesernya\n(segitiga awal ada di (0,0),(3,0),(0,3))')
+    elif pilihan_dipilih == 'Skala':
+        teks_penting.config(text="masukan nilai skala x dan y di x1 dan y1!\nSegitiga awal (0,0),(0,3),(3,0)")
+    elif pilihan_dipilih == 'Rotasi':
+        teks_penting.config(text="masukan nilai derajat di x1 dan segitiga awal yaitu:\n(0,0),(0,3),(3,0)")
 
 
 def Kerjakan():
@@ -88,6 +103,35 @@ def Kerjakan():
             tugas4.hitung()
             tugas4.show()
             del tugas4
+        elif pilihan_menu.get() == 'Boundary Fill':
+            image = numpy.zeros((11, 11))  # Buat matriks gambar 11x11
+            fill_color = 255  # Warna pengisi (misalnya putih)
+            tugas5 = BoundaryFill()
+            tugas5_hasil = tugas5.boundary_fill(image,int(nilai_x.get()),int(nilai_y.get()),fill_color)
+
+            plt.figure(5)
+            plt.imshow(tugas5_hasil, cmap='gray')  # Gunakan cmap='gray' untuk menampilkan gambar grayscale
+            plt.colorbar()  # Tampilkan bilah warna
+            plt.grid(True)
+            plt.title('Hasil Algoritma Boundary Fill | Aditya Difa 123210085')
+            plt.show()
+
+            del tugas5,tugas5_hasil
+
+        elif pilihan_menu.get() == 'Translasi':
+            tugas6 = Translasi(int(nilai_x.get()),int(nilai_y.get()))
+            tugas6.geser()
+            del tugas6
+
+        elif pilihan_menu.get() == 'Skala':
+            tugas7 = Skala(int(nilai_x.get()),int(nilai_y.get()))
+            tugas7.hitung()
+            del tugas7
+
+        elif pilihan_menu.get() == 'Rotasi':
+            tugas8 = Rotasi(int(nilai_x.get()))
+            tugas8.hitung()
+            del tugas8
 
     else:
         if nilai_x_cek == True:
@@ -184,7 +228,7 @@ y_konfirmasi2.pack(pady=5,fill="x",expand=True)
 #menu dropdown
 # Membuat menu dropdown
 pilihan_dropdown = ttk.Combobox(main_frame, textvariable=pilihan_menu,state="readonly")
-pilihan_dropdown['values'] = ('Algoritma DDA', 'Bresenham', 'Circle Midpoint','Elips Midpoints')
+pilihan_dropdown['values'] = ('Algoritma DDA', 'Bresenham', 'Circle Midpoint','Elips Midpoints','Boundary Fill','Translasi','Skala','Rotasi')
 pilihan_dropdown.pack(pady=2)
 pilihan_dropdown.bind("<<ComboboxSelected>>", on_dropdown_changed)
 
